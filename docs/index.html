@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pacmath.lol — mental math, out loud</title>
+    <meta
+        name="description"
+        content="pacmath is a free math game for kids. They solve in their head, say the answer out loud, and sharpen mental math one quick round at a time."
+    >
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;700&display=swap"
+        rel="stylesheet"
+    >
+    <style>
+        :root {
+            --bg: #21005d;
+            --bg-deep: #170042;
+            --card: rgba(255, 255, 255, 0.06);
+            --card-hover: rgba(255, 255, 255, 0.10);
+            --border: rgba(255, 255, 255, 0.10);
+            --text: #fff;
+            --muted: rgba(255, 255, 255, 0.70);
+            --quiet: rgba(255, 255, 255, 0.40);
+            --salmon: #fa8072;
+            --green: #7be092;
+            --yellow: #FFD700;
+            --ink: #21005d;
+            --radius-xl: 24px;
+            --radius-lg: 16px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            min-height: 100vh;
+            font-family: "Space Grotesk", sans-serif;
+            color: var(--text);
+            background: #21005d;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a { color: inherit; }
+
+        .page {
+            width: min(1080px, calc(100% - 48px));
+            margin: 0 auto;
+            padding: 32px 0 56px;
+        }
+
+        /* ── Header ── */
+        .site-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 48px;
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-family: "IBM Plex Mono", monospace;
+            text-decoration: none;
+        }
+
+        .brand-mark {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--yellow);
+            clip-path: polygon(0 0, 100% 0, 100% 38%, 56% 50%, 100% 62%, 100% 100%, 0 100%);
+        }
+
+        .brand-name {
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .header-cta {
+            padding: 10px 20px;
+            border-radius: 999px;
+            background: var(--green);
+            color: var(--ink);
+            font-family: "IBM Plex Mono", monospace;
+            font-size: 13px;
+            font-weight: 700;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            transition: opacity 180ms;
+        }
+
+        .header-cta:hover { opacity: 0.85; }
+
+        /* ── Email signup ── */
+        .signup-form {
+            display: flex;
+            gap: 8px;
+            max-width: 420px;
+            margin-bottom: 12px;
+        }
+
+        .signup-form input[type="email"] {
+            flex: 1;
+            min-width: 0;
+            padding: 0 18px;
+            height: 54px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--text);
+            font-family: "IBM Plex Mono", monospace;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 180ms;
+        }
+
+        .signup-form input[type="email"]::placeholder {
+            color: var(--quiet);
+        }
+
+        .signup-form input[type="email"]:focus {
+            border-color: var(--green);
+        }
+
+        .signup-form button {
+            flex-shrink: 0;
+        }
+
+        .signup-ok {
+            display: none;
+            padding: 14px 20px;
+            border-radius: 14px;
+            background: rgba(123, 224, 146, 0.12);
+            border: 1px solid rgba(123, 224, 146, 0.25);
+            color: var(--green);
+            font-family: "IBM Plex Mono", monospace;
+            font-size: 13px;
+        }
+
+        /* ── Hero ── */
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr minmax(300px, 420px);
+            gap: 48px;
+            align-items: center;
+            margin-bottom: 80px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.8rem, 5.5vw, 4.4rem);
+            line-height: 0.95;
+            letter-spacing: -0.05em;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 .accent {
+            color: var(--yellow);
+        }
+
+        .hero-lead {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: var(--muted);
+            margin-bottom: 32px;
+            max-width: 32rem;
+        }
+
+        .hero-lead strong {
+            color: var(--text);
+        }
+
+        .cta-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 54px;
+            padding: 0 28px;
+            border-radius: 14px;
+            border: none;
+            font-family: "IBM Plex Mono", monospace;
+            font-size: 14px;
+            font-weight: 700;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            cursor: pointer;
+            transition: transform 180ms, opacity 180ms;
+        }
+
+        .btn:hover { transform: translateY(-1px); opacity: 0.9; }
+
+        .btn-primary {
+            background: var(--green);
+            color: var(--ink);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: var(--text);
+        }
+
+        .microcopy {
+            font-family: "IBM Plex Mono", monospace;
+            font-size: 12px;
+            color: var(--quiet);
+        }
+
+        /* ── Phone mockup ── */
+        .phone-wrap {
+            position: relative;
+        }
+
+        .phone {
+            position: relative;
+            padding: 24px;
+            border-radius: 32px;
+            background: linear-gradient(180deg, rgba(46, 14, 120, 0.95), rgba(20, 0, 60, 0.98));
+            border: 2px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.04);
+            min-height: 540px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .phone-notch {
+            width: 120px;
+            height: 28px;
+            margin: 0 auto 20px;
+            border-radius: 0 0 16px 16px;
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .hud {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .hud-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .hud-label {
+            font-family: "IBM Plex Mono", monospace;
+            font-size: 10px;
+            text-transform: uppercase;
+            color: var(--quiet);
+            letter-spacing: 0.08em;
+        }
+
+        .hud-value {
+            font-family: "IBM Plex Mono", monospace;
+            font-size: 1.6rem;
+            font-weight: 700;
+        }
+
+        .hud-value.green { color: var(--green); }
+
+        .mode-rail {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+            margin-top: 16px;
+        }
+
+        .mode-pill {
+            padding: 7px 0;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            text-align: center;
+            font-family: "IBM Plex Mono", monospace;
+            font-size: 11px;
+            color: var(--quiet);
+        }
+
+        .mode-pill.is-live {
+            background: var(--yellow);
+            border-color: transparent;
+            color: var(--ink);
+            font-weight: 700;
+        }
+
+        .problem {
+            margin: auto 0;
+            padding: 32px 0 16px;
+        }
+
+        .problem-sum {
+            font-family: "IBM Plex Mono", monospace;
+            font-size: clamp(3rem, 6vw, 4.4rem);
+            font-weight: 700;
+            letter-spacing: -0.04em;
+            margin-bottom: 14px;
+        }
+
+        .problem-bar {
+            width: 100%;
+            height: 6px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.06);
+            overflow: hidden;
+        }
+
+        .problem-bar span {
+            display: block;
+            width: 68%;
+            height: 100%;
+            border-radius: 999px;
+            background: linear-gradient(90deg, var(--green), #a8f5b8);
+        }
+
+        .chomp-zone {
+            position: relative;
+            height: 60px;
+            margin-top: 20px;
+        }
+
+        .chompy {
+            position: absolute;
+            left: 0;
+            bottom: 4px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--yellow);
+            animation:
+                chomp-walk 14s linear infinite,
+                chomp-mouth 0.5s steps(1, end) infinite;
+        }
+
+        /* clip-path polygon matching game's ChompShape:
+           open = 45° mouth (±22.5°, tan(22.5°)=0.414 → 50%±20.7%)
+           closed = 2° mouth (±1°, nearly full circle) */
+        @keyframes chomp-mouth {
+            0%, 49%  { clip-path: polygon(100% 0, 100% 29%, 50% 50%, 100% 71%, 100% 100%, 0 100%, 0 0); }
+            50%, 100% { clip-path: polygon(100% 0, 100% 49%, 50% 50%, 100% 51%, 100% 100%, 0 100%, 0 0); }
+        }
+
+        /* walk right → instant flip → walk left → instant flip */
+        @keyframes chomp-walk {
+            0%      { left: 0;                    transform: scaleX(1); }
+            49.9%   { left: calc(100% - 44px);    transform: scaleX(1); }
+            50%     { left: calc(100% - 44px);    transform: scaleX(-1); }
+            99.9%   { left: 0;                    transform: scaleX(-1); }
+            100%    { left: 0;                    transform: scaleX(1); }
+        }
+
+        .trail-dot {
+            position: absolute;
+            border-radius: 50%;
+            bottom: 22px;
+            transition: none;
+        }
+
+        .trail-dot { width: 10px; height: 10px; background: var(--green); }
+        .trail-dot.bad { width: 7px; height: 7px; background: var(--salmon); bottom: 24px; }
+
+        /* spread dots across the zone */
+        .trail-1 { left: 22%; }
+        .trail-2 { left: 38%; }
+        .trail-3 { left: 56%; }
+        .trail-4 { left: 74%; }
+
+        /* dot visibility controlled by JS — checks actual pixel overlap */
+
+        .quiet-tag {
+            position: absolute;
+            right: 12px;
+            bottom: 48px;
+            padding: 6px 12px;
+            border-radius: 10px 10px 2px 10px;
+            background: rgba(255, 255, 255, 0.12);
+            font-family: "IBM Plex Mono", monospace;
+            font-size: 11px;
+            color: var(--muted);
+            white-space: nowrap;
+        }
+
+        /* ── Sections ── */
+        .section { margin-bottom: 72px; }
+
+        .section-label {
+            display: inline-block;
+            margin-bottom: 12px;
+            font-family: "IBM Plex Mono", monospace;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: var(--salmon);
+        }
+
+        .section h2 {
+            font-size: clamp(1.8rem, 3vw, 2.6rem);
+            line-height: 1.05;
+            letter-spacing: -0.04em;
+            margin-bottom: 12px;
+        }
+
+        .section-sub {
+            color: var(--muted);
+            line-height: 1.7;
+            max-width: 38rem;
+            margin-bottom: 32px;
+        }
+
+        .grid { display: grid; gap: 16px; }
+        .grid-3 { grid-template-columns: repeat(3, 1fr); }
+        .grid-2 { grid-template-columns: repeat(2, 1fr); }
+
+        .card {
+            padding: 28px;
+            border-radius: var(--radius-lg);
+            background: var(--card);
+            border: 1px solid var(--border);
+            transition: background 200ms;
+        }
+
+        .card:hover { background: var(--card-hover); }
+
+        .card-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            margin-bottom: 16px;
+            border-radius: 10px;
+            font-size: 20px;
+        }
+
+        .card-icon.recall { background: rgba(255, 215, 0, 0.15); }
+        .card-icon.voice { background: rgba(123, 224, 146, 0.15); }
+        .card-icon.habit { background: rgba(250, 128, 114, 0.15); }
+
+        .card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            letter-spacing: -0.02em;
+        }
+
+        .card p {
+            color: var(--muted);
+            line-height: 1.65;
+            font-size: 0.95rem;
+        }
+
+        /* ── Steps ── */
+        .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+
+        .step {
+            padding: 28px;
+            border-radius: var(--radius-lg);
+            background: var(--card);
+            border: 1px solid var(--border);
+        }
+
+        .step-num {
+            display: inline-flex;
+            width: 32px;
+            height: 32px;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 14px;
+            border-radius: 50%;
+            background: var(--salmon);
+            color: var(--ink);
+            font-family: "IBM Plex Mono", monospace;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .step h3 {
+            font-size: 1.1rem;
+            margin-bottom: 6px;
+        }
+
+        .step p {
+            color: var(--muted);
+            line-height: 1.6;
+            font-size: 0.92rem;
+        }
+
+        /* ── Modes ── */
+        .mode-card {
+            padding: 28px;
+            border-radius: var(--radius-lg);
+            background: var(--card);
+            border: 1px solid var(--border);
+        }
+
+        .mode-tag {
+            display: inline-block;
+            padding: 7px 14px;
+            border-radius: 999px;
+            font-family: "IBM Plex Mono", monospace;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 14px;
+        }
+
+        .mode-tag.classic { background: var(--yellow); color: var(--ink); }
+        .mode-tag.endless { background: rgba(123, 224, 146, 0.14); color: var(--green); border: 1px solid rgba(123, 224, 146, 0.25); }
+
+        .mode-card h3 {
+            font-size: 1.15rem;
+            margin-bottom: 8px;
+        }
+
+        .mode-card p {
+            color: var(--muted);
+            line-height: 1.65;
+            font-size: 0.95rem;
+        }
+
+        .mode-card p strong { color: var(--text); }
+
+        /* ── Bottom CTA ── */
+        .cta-band {
+            padding: 40px;
+            border-radius: var(--radius-xl);
+            background: linear-gradient(135deg, rgba(250, 128, 114, 0.12), rgba(123, 224, 146, 0.08));
+            border: 1px solid rgba(255, 255, 255, 0.10);
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .cta-band h2 {
+            font-size: clamp(1.8rem, 3vw, 2.8rem);
+            letter-spacing: -0.04em;
+            margin-bottom: 12px;
+        }
+
+        .cta-band p {
+            color: var(--muted);
+            max-width: 34rem;
+            margin: 0 auto 28px;
+            line-height: 1.7;
+        }
+
+        .cta-band .cta-row {
+            justify-content: center;
+            margin-bottom: 0;
+        }
+
+        /* ── Footer ── */
+        footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            font-family: "IBM Plex Mono", monospace;
+            font-size: 12px;
+            color: var(--quiet);
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 900px) {
+            .hero { grid-template-columns: 1fr; gap: 40px; }
+            .grid-3, .grid-2, .steps { grid-template-columns: 1fr; }
+            .phone { min-height: 480px; }
+        }
+
+        @media (max-width: 600px) {
+            .page { width: calc(100% - 32px); padding-top: 20px; }
+            .site-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+            .hero h1 { font-size: 2.4rem; }
+            .phone { padding: 18px; }
+            .cta-band { padding: 28px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <header class="site-header">
+            <a href="/" class="brand">
+                <span class="brand-mark" aria-hidden="true"></span>
+                <span class="brand-name">pacmath</span>
+            </a>
+            <a href="#signup" class="header-cta">Get Notified</a>
+        </header>
+
+        <main>
+            <!-- ── Hero ── -->
+            <section class="hero">
+                <div>
+                    <h1>The free math game that makes kids <span class="accent">quicker</span>.</h1>
+                    <p class="hero-lead">
+                        pacmath turns arithmetic practice into a fast daily game.
+                        Kids solve in their head, say the answer out loud, and feed Chompy.
+                        <strong>Short rounds. Sharper math. No worksheets.</strong>
+                    </p>
+                    <form class="signup-form" id="signup" onsubmit="return handleSignup(this)">
+                        <input type="email" name="email" placeholder="your@email.com" required>
+                        <button type="submit" class="btn btn-primary">Notify Me</button>
+                    </form>
+                    <div class="signup-ok" id="signup-ok">You're on the list. We'll let you know when it's live.</div>
+                    <p class="microcopy">We'll email you when the app launches. Nothing else.</p>
+                </div>
+
+                <div class="phone-wrap">
+                    <div class="phone">
+                        <div class="phone-notch"></div>
+                        <div class="hud">
+                            <div class="hud-item">
+                                <span class="hud-label">Score</span>
+                                <span class="hud-value green">90</span>
+                            </div>
+                            <div class="hud-item">
+                                <span class="hud-label">Streak</span>
+                                <span class="hud-value">8</span>
+                            </div>
+                            <div class="hud-item">
+                                <span class="hud-label">Time</span>
+                                <span class="hud-value">0:14</span>
+                            </div>
+                        </div>
+
+                        <div class="mode-rail">
+                            <span class="mode-pill is-live">easy</span>
+                            <span class="mode-pill">medium</span>
+                            <span class="mode-pill">hard</span>
+                            <span class="mode-pill">beast</span>
+                        </div>
+
+                        <div class="problem">
+                            <div class="problem-sum">12 + 7</div>
+                            <div class="problem-bar"><span></span></div>
+                        </div>
+
+                        <div class="chomp-zone">
+                            <span class="quiet-tag">needs 10 noms today</span>
+                            <span class="trail-dot trail-1"></span>
+                            <span class="trail-dot bad trail-2"></span>
+                            <span class="trail-dot trail-3"></span>
+                            <span class="trail-dot trail-4"></span>
+                            <span class="chompy"></span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ── Why ── -->
+            <section class="section">
+                <span class="section-label">Why parents download it</span>
+                <h2>Not dressed-up drilling.</h2>
+                <p class="section-sub">
+                    A fast, game-shaped way to build the kind of math fluency
+                    that makes classroom work feel easier.
+                </p>
+
+                <div class="grid grid-3">
+                    <article class="card">
+                        <div class="card-icon recall">🧠</div>
+                        <h3>Mental math first</h3>
+                        <p>
+                            Kids do the arithmetic in their head — no multiple choice, no visual guessing.
+                            Real reps with addition, subtraction, multiplication, and division.
+                        </p>
+                    </article>
+
+                    <article class="card">
+                        <div class="card-icon voice">🎙</div>
+                        <h3>Say it out loud</h3>
+                        <p>
+                            Kids speak the answer instead of tapping it. That extra step turns passive recognition
+                            into active recall.
+                        </p>
+                    </article>
+
+                    <article class="card">
+                        <div class="card-icon habit">⚡</div>
+                        <h3>Two-minute habit</h3>
+                        <p>
+                            Built for quick reps, not marathon sessions. Feed Chompy, get a clean dose
+                            of practice, and move on.
+                        </p>
+                    </article>
+                </div>
+            </section>
+
+            <!-- ── How ── -->
+            <section class="section">
+                <span class="section-label">How it works</span>
+                <h2>Simple on purpose.</h2>
+                <p class="section-sub">Less tapping. Less clutter. More actual thinking.</p>
+
+                <div class="steps">
+                    <article class="step">
+                        <span class="step-num">1</span>
+                        <h3>Read the problem</h3>
+                        <p>A clean prompt. No menus in the way.</p>
+                    </article>
+
+                    <article class="step">
+                        <span class="step-num">2</span>
+                        <h3>Solve it in your head</h3>
+                        <p>The actual skill most families want to build.</p>
+                    </article>
+
+                    <article class="step">
+                        <span class="step-num">3</span>
+                        <h3>Say the answer</h3>
+                        <p>Correct answers become food for Chompy. Enough right answers and he stays happy for the day.</p>
+                    </article>
+                </div>
+            </section>
+
+            <!-- ── Modes ── -->
+            <section class="section">
+                <span class="section-label">Game modes</span>
+                <h2>Two ways to play.</h2>
+                <p class="section-sub">One builds the habit. The other keeps strong kids pushing.</p>
+
+                <div class="grid grid-2">
+                    <article class="mode-card">
+                        <span class="mode-tag classic">Classic</span>
+                        <h3>The daily round</h3>
+                        <p>
+                            <strong>10 right answers keeps Chompy happy for another day.</strong>
+                            Pick your difficulty. Quick win before school, after homework,
+                            or whenever your kid needs a sharp rep.
+                        </p>
+                    </article>
+
+                    <article class="mode-card">
+                        <span class="mode-tag endless">Endless</span>
+                        <h3>The challenge mode</h3>
+                        <p>
+                            <strong>Gets harder, timed, 3 strikes and you're out.</strong>
+                            For kids who want pressure, pace, and a reason to keep climbing.
+                        </p>
+                    </article>
+                </div>
+            </section>
+
+            <!-- ── CTA ── -->
+            <section class="cta-band">
+                <h2>Give math practice some teeth.</h2>
+                <p>
+                    Launching soon. Free forever. No ads, no accounts, no subscriptions.
+                </p>
+                <form class="signup-form" style="margin: 0 auto 0;" onsubmit="return handleSignup(this)">
+                    <input type="email" name="email" placeholder="your@email.com" required>
+                    <button type="submit" class="btn btn-primary">Notify Me</button>
+                </form>
+            </section>
+        </main>
+
+        <footer>
+            <span>pacmath.lol</span>
+            <a href="/privacy" style="text-decoration:none;color:inherit;opacity:0.7">privacy</a>
+            <span>mental math, out loud</span>
+        </footer>
+    </div>
+<script>
+(function () {
+    var chompy = document.querySelector('.chompy');
+    var dots = [].slice.call(document.querySelectorAll('.trail-dot'));
+    var eaten = {};
+    var prevX = 0;
+
+    function tick() {
+        var cr = chompy.getBoundingClientRect();
+        var cx = cr.left + cr.width / 2;
+        var goingRight = cx > prevX + 0.3;
+        var goingLeft = cx < prevX - 0.3;
+        prevX = cx;
+
+        dots.forEach(function (dot, i) {
+            var dr = dot.getBoundingClientRect();
+            var dx = dr.left + dr.width / 2;
+
+            if (goingRight && !eaten[i] && cr.right >= dx) {
+                dot.style.opacity = '0';
+                eaten[i] = true;
+            }
+            if (goingLeft && eaten[i] && cr.right <= dx) {
+                dot.style.opacity = '1';
+                eaten[i] = false;
+            }
+        });
+
+        requestAnimationFrame(tick);
+    }
+
+    requestAnimationFrame(tick);
+})();
+
+function handleSignup(form) {
+    var email = form.email.value;
+    // TODO: replace with your endpoint (Formspree, Mailchimp, etc.)
+    // fetch('https://formspree.io/f/YOUR_ID', {
+    //     method: 'POST',
+    //     headers: { 'Content-Type': 'application/json' },
+    //     body: JSON.stringify({ email: email })
+    // });
+    form.style.display = 'none';
+    var ok = form.parentElement.querySelector('.signup-ok');
+    if (ok) { ok.style.display = 'block'; }
+    else { form.insertAdjacentHTML('afterend', '<p class="signup-ok" style="display:block">You\'re on the list.</p>'); }
+    return false;
+}
+</script>
+</body>
+</html>

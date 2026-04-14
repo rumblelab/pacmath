@@ -1,0 +1,46 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Xcode
+build/
+DerivedData/
+*.xcuserstate
+*.xcuserdatad
+xcuserdata/
+*.xcscmblueprint
+*.xccheckout
+*.moved-aside
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Swift Package Manager
+.build/
+Package.resolved
+.swiftpm/
+
+# Xcode derived data at repo root (local to this working copy)
+.derived/
+
+# Claude Code local settings (user-specific permissions)
+.claude/
+
+# Legacy web prototype from a different project — not part of PacMath.
+# Delete or move this folder if you don't need it anymore.
+/mathme/
+
+# Editor / tooling
+.vscode/
+.idea/
+*.swp
+
+# Secrets — belt and suspenders, nothing like this exists today
+.env
+.env.*
+*.p12
+*.pem
+*.mobileprovision

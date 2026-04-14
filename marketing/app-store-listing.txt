@@ -1,0 +1,85 @@
+================================================================
+PacMath — App Store Listing Copy
+================================================================
+Each block below is ready to copy-paste into App Store Connect.
+Character counts in parentheses are Apple's caps.
+
+
+--- SUBTITLE (30 char max) -----------------------------------
+mental math, out loud
+
+
+--- PROMOTIONAL TEXT (170 char max) --------------------------
+mental math you say out loud. feed chompy the answers and watch him chomp. no typing, no tapping — just say it.
+
+
+--- DESCRIPTION (4000 char max) ------------------------------
+PacMath is voice-first mental math for kids.
+
+Tap the mic, see a problem, say the answer out loud. Chompy eats the dots and waits for the next one. No typing, no tapping, no stylus, no worksheets — just math you say with your voice.
+
+FEATURES
+• Voice answers powered by on-device speech recognition
+• Classic mode: 10 problems on your chosen level
+• Endless mode: problems that adapt as you improve
+• Four difficulty tiers: easy, medium, hard, beast
+• Add and subtract (easy), multiply and divide (medium+)
+• Daily streaks, high scores, best-answer time, and a full recap of every run
+• Customize Chompy with a name and color
+• Works offline — no accounts, no ads, no data collection
+
+PRIVACY
+PacMath does not collect data. Speech recognition runs entirely on your device. Nothing is sent to a server. Ever. See pacmath.lol/privacy for details.
+
+BUILT FOR PRACTICE
+PacMath is built around the idea that saying math out loud is how it sticks. Worksheets and calculators both bypass the part of practice that matters: producing the answer from your head, on the spot, with no buttons in between. PacMath gives kids (and adults) a short, hands-free session that rewards speed, accuracy, and streaks.
+
+Feed Chompy. Get better at math.
+
+
+--- KEYWORDS (100 char max, no spaces after commas) ----------
+math,mental math,voice,kids math,flashcards,multiplication,addition,speech,practice,arithmetic
+
+
+--- SUPPORT URL ----------------------------------------------
+https://pacmath.lol/
+
+
+--- MARKETING URL (optional) ---------------------------------
+https://pacmath.lol/
+
+
+--- PRIVACY POLICY URL ---------------------------------------
+https://pacmath.lol/privacy/
+
+
+--- BETA APP DESCRIPTION (TestFlight) ------------------------
+Voice-first mental math game. Tap the mic, say the answer to each problem. Test all four difficulty levels, both game modes, and let me know if speech recognition misfires.
+
+
+--- BETA APP FEEDBACK EMAIL ----------------------------------
+(your email here)
+
+
+--- REVIEW NOTES (for App Review) ----------------------------
+PacMath is a voice-first math game. To test: tap the microphone button, then say the answer to the math problem out loud. All speech recognition is on-device (no network required). The app has no accounts, no purchases, no ads, and does not collect any data.
+
+Tip: a physical device is recommended — speech recognition works in Simulator but is more reliable on-device. If you're testing in Simulator and recognition fails, the "skip" button lets you advance past any problem.
+
+
+--- APP PRIVACY / DATA COLLECTION ----------------------------
+Data Not Collected
+
+(When filling out App Privacy in ASC, click "Get Started" under Data
+Collection, answer "No, we do not collect data from this app", confirm.
+This matches the PrivacyInfo.xcprivacy manifest and the privacy page.)
+
+
+--- AGE RATING -----------------------------------------------
+4+
+(Answer "None" to every category in the age rating questionnaire.)
+
+
+--- CATEGORY -------------------------------------------------
+Primary:   Education
+Secondary: Games → Educational
