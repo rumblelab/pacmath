@@ -20,9 +20,10 @@ Long-press the `pacmath.lol` footer on the Start screen for 1.5 seconds. Confirm
 ## App icon regeneration
 
 - Current icon: `app/PacMath/Assets.xcassets/AppIcon.appiconset/pacmath-icon.png` (1024×1024, sRGB, no alpha)
-- Renderer: `app/PacMath/LegacyAssets/render_icons.swift` — parameterized, can emit variants
-- Legacy backups (v1 space scene etc.) live alongside the renderer in `LegacyAssets/`
-- To iterate: edit params in `render_icons.swift`, run `swift render_icons.swift <output-dir>`, copy the chosen PNG over `pacmath-icon.png`
+- Current renderer (v2, post-rejection): `app/PacMath/LegacyAssets/render_icon_v2.swift` — honey-gold Chompy peeking over a `6+7` flashcard
+- Legacy v1 renderer: `app/PacMath/LegacyAssets/render_icons.swift` — produced a yellow Pac-Man-silhouette icon that was rejected under guideline 4.1(a). Kept for reference, not for regeneration.
+- To iterate: edit params in `render_icon_v2.swift`, run `swift render_icon_v2.swift <output-dir>`, copy the output over `pacmath-icon.png`
+- **Do not revert to anything resembling the v1 icon** (full yellow circle + wedge mouth silhouette on dark background). That composition was specifically flagged as a Pac-Man copycat. The v2 design breaks the trademark read by (a) using honey-gold instead of #FFD700, (b) adding eyes, (c) showing only the top of the head, (d) putting the character behind a flashcard so the Education context reads first.
 
 ## Privacy policy accuracy
 
@@ -43,5 +44,6 @@ This is only true as long as `app/PacMath/SpeechRecognizer.swift` keeps `request
 
 ## Future ideas
 
+- **iPad support (v1.1 launch target).** Shipped iPhone-only for v1 because the audience (kids) is more likely to have an iPad than a phone, but retrofitting iPad properly was not a day-one blocker. Everything in the repo is SwiftUI with adaptive layout, so the work is a layout pass, not a rewrite: add `maxWidth` containers to the main views (`ResultsView` already does this at 500), decide whether Chompy's traversal path should clamp to a bounded width or scale across the full iPad canvas, verify the customize keyboard and color picker don't look absurd at tablet size, and re-enable iPad in `TARGETED_DEVICE_FAMILY`. The marketable angle: v1.1 "Now on iPad" is a free second launch announcement 2–3 weeks after v1. Realistic scope: a weekend. Needs a real iPad to test.
 - **Miss pile.** This is already how the user teaches his daughter with physical flashcards: when she gets one wrong, it goes into a pile they retest. That's the whole mechanic, and it writes its own UI — a visible stack on the Start screen that shrinks as she masters problems and grows when she misses new ones. The metaphor is the product; the kid already understands the rule. Implementation: `[problemKey: missCount]` in UserDefaults with canonical keys like `"7x8"`, graduate out after two correct answers in a row. Open questions: how much does the pile bias normal gameplay vs. live as its own "review" mode, and how literal is the visual metaphor (a real stack of cards, or just a number on the Start screen). Grounded pedagogy, not a speculative feature — ship v1, watch real sessions, then build.
 - **Show all missed problems on results screen.** Currently only the *last* missed problem is surfaced. If a kid got 3/10 wrong in classic, they only see the 10th one. Stack-list below the current card (only when `wrong > 1`) is simpler than a swipe UI.
