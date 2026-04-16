@@ -44,3 +44,6 @@ Package.resolved
 *.p12
 *.pem
 *.mobileprovision
+
+# Private business strategy doc — kept local, not for the public repo
+STRATEGY.md

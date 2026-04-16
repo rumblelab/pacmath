@@ -1,0 +1,38 @@
+================================================================
+PacMath — Reply to App Review (Guideline 2.1 Information Needed)
+================================================================
+Paste the block below into the Resolution Center reply field in
+App Store Connect. Submit alongside the new build (5) which also
+addresses the 4.1(a) icon rejection.
+
+
+--- BEGIN REPLY ---------------------------------------------
+
+Thank you for the review. Answers below.
+
+1. Does your app use third-party analytics?
+No. PacMath contains no analytics SDK of any kind.
+
+2. Does your app use third-party advertising?
+No. PacMath contains no advertising SDK and displays no ads.
+
+3. Does your app share user data with any third parties?
+No. No data is shared with any third party. There is no backend, no server, no network traffic.
+
+4. Does your app collect any user or device data?
+No data is collected, transmitted, or accessible by the developer.
+
+The app stores a small amount of local game state in iOS UserDefaults on-device only: high scores, daily streak, total time played, and the user's chosen name and color for the in-game character ("Chompy"). This data never leaves the device.
+
+Speech recognition uses Apple's Speech framework with requiresOnDeviceRecognition = true (see SpeechRecognizer.swift), so audio is processed on-device and never sent to Apple's servers.
+
+The PrivacyInfo.xcprivacy manifest declares only NSPrivacyAccessedAPICategoryUserDefaults with reason code CA92.1 (access to user defaults limited to the app itself). NSPrivacyTracking is false and NSPrivacyTrackingDomains is empty. NSPrivacyCollectedDataTypes is an empty array.
+
+This matches the privacy policy at https://pacmath.lol/privacy and the "Data Not Collected" declaration in App Privacy.
+
+Additionally, the app icon has been redesigned
+ in build 5 to address the 4.1(a) feedback. The previous icon's silhouette was unintentionally close to a known trademark; the new icon uses a different color palette, adds eye details to the character, and composes the character behind a flashcard so the Education context is the dominant read.
+
+Thank you for your time.
+
+--- END REPLY -----------------------------------------------
